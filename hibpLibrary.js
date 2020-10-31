@@ -1,13 +1,13 @@
-(function(window){
-    function hibpLibrary(){
+(function (window) {
+    function hibpLibrary() {
         var _hibpLibraryObject = {};
 
         var settings = {
-            url:"https://api.pwnedpasswords.com/range/",
+            url: "https://api.pwnedpasswords.com/range/",
         }
 
         // source: http://phpjs.org/functions/sha1/
-        _hibpLibraryObject.sha1 = function(str){
+        _hibpLibraryObject.sha1 = function (str) {
             //  discuss at: http://phpjs.org/functions/sha1/
             // original by: Webtoolkit.info (http://www.webtoolkit.info/)
             // improved by: Michael White (http://getsprink.com)
@@ -17,33 +17,19 @@
             //   example 1: sha1('Kevin van Zonneveld');
             //   returns 1: '54916d2e62f65b3afa6e192e6a601cdbe5cb5897'
 
-            var rotate_left = function(n, s) {
+            var rotate_left = function (n, s) {
                 var t4 = (n << s) | (n >>> (32 - s));
                 return t4;
             };
 
-            /*var lsb_hex = function (val) { // Not in use; needed?
-                var str="";
-                var i;
-                var vh;
-                var vl;
-
-                for ( i=0; i<=6; i+=2 ) {
-                vh = (val>>>(i*4+4))&0x0f;
-                vl = (val>>>(i*4))&0x0f;
-                str += vh.toString(16) + vl.toString(16);
-                }
-                return str;
-            };*/
-
-            var cvt_hex = function(val) {
+            var cvt_hex = function (val) {
                 var str = '';
                 var i;
                 var v;
 
                 for (i = 7; i >= 0; i--) {
-                v = (val >>> (i * 4)) & 0x0f;
-                str += v.toString(16);
+                    v = (val >>> (i * 4)) & 0x0f;
+                    str += v.toString(16);
                 }
                 return str;
             };
@@ -70,18 +56,18 @@
 
             switch (str_len % 4) {
                 case 0:
-                i = 0x080000000;
-                break;
+                    i = 0x080000000;
+                    break;
                 case 1:
-                i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
-                break;
+                    i = str.charCodeAt(str_len - 1) << 24 | 0x0800000;
+                    break;
                 case 2:
-                i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
-                break;
+                    i = str.charCodeAt(str_len - 2) << 24 | str.charCodeAt(str_len - 1) << 16 | 0x08000;
+                    break;
                 case 3:
-                i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) <<
-                    8 | 0x80;
-                break;
+                    i = str.charCodeAt(str_len - 3) << 24 | str.charCodeAt(str_len - 2) << 16 | str.charCodeAt(str_len - 1) <<
+                        8 | 0x80;
+                    break;
             }
 
             word_array.push(i);
@@ -95,10 +81,10 @@
 
             for (blockstart = 0; blockstart < word_array.length; blockstart += 16) {
                 for (i = 0; i < 16; i++) {
-                W[i] = word_array[blockstart + i];
+                    W[i] = word_array[blockstart + i];
                 }
                 for (i = 16; i <= 79; i++) {
-                W[i] = rotate_left(W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16], 1);
+                    W[i] = rotate_left(W[i - 3] ^ W[i - 8] ^ W[i - 14] ^ W[i - 16], 1);
                 }
 
                 A = H0;
@@ -108,39 +94,39 @@
                 E = H4;
 
                 for (i = 0; i <= 19; i++) {
-                temp = (rotate_left(A, 5) + ((B & C) | (~B & D)) + E + W[i] + 0x5A827999) & 0x0ffffffff;
-                E = D;
-                D = C;
-                C = rotate_left(B, 30);
-                B = A;
-                A = temp;
+                    temp = (rotate_left(A, 5) + ((B & C) | (~B & D)) + E + W[i] + 0x5A827999) & 0x0ffffffff;
+                    E = D;
+                    D = C;
+                    C = rotate_left(B, 30);
+                    B = A;
+                    A = temp;
                 }
 
                 for (i = 20; i <= 39; i++) {
-                temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0x6ED9EBA1) & 0x0ffffffff;
-                E = D;
-                D = C;
-                C = rotate_left(B, 30);
-                B = A;
-                A = temp;
+                    temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0x6ED9EBA1) & 0x0ffffffff;
+                    E = D;
+                    D = C;
+                    C = rotate_left(B, 30);
+                    B = A;
+                    A = temp;
                 }
 
                 for (i = 40; i <= 59; i++) {
-                temp = (rotate_left(A, 5) + ((B & C) | (B & D) | (C & D)) + E + W[i] + 0x8F1BBCDC) & 0x0ffffffff;
-                E = D;
-                D = C;
-                C = rotate_left(B, 30);
-                B = A;
-                A = temp;
+                    temp = (rotate_left(A, 5) + ((B & C) | (B & D) | (C & D)) + E + W[i] + 0x8F1BBCDC) & 0x0ffffffff;
+                    E = D;
+                    D = C;
+                    C = rotate_left(B, 30);
+                    B = A;
+                    A = temp;
                 }
 
                 for (i = 60; i <= 79; i++) {
-                temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0xCA62C1D6) & 0x0ffffffff;
-                E = D;
-                D = C;
-                C = rotate_left(B, 30);
-                B = A;
-                A = temp;
+                    temp = (rotate_left(A, 5) + (B ^ C ^ D) + E + W[i] + 0xCA62C1D6) & 0x0ffffffff;
+                    E = D;
+                    D = C;
+                    C = rotate_left(B, 30);
+                    B = A;
+                    A = temp;
                 }
 
                 H0 = (H0 + A) & 0x0ffffffff;
@@ -154,38 +140,36 @@
             return temp.toLowerCase();
         }
 
-        _hibpLibraryObject.isBlank = function(str){
+        _hibpLibraryObject.isBlank = function (str) {
             return (!str || /^\s*$/.test(str));
         }
 
-        _hibpLibraryObject.httpGet = function(url){
+        _hibpLibraryObject.httpGet = function (url) {
             var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open( "GET", url, false ); 
-            xmlHttp.send( null );
+            xmlHttp.open("GET", url, false);
+            xmlHttp.send(null);
             return xmlHttp.responseText;
         }
 
-        _hibpLibraryObject.httpGetAsync = async function(url){
+        _hibpLibraryObject.httpGetAsync = async function (url) {
             let response = await fetch(url);
             let data = await response.text();
-            // console.log(data);
             return data;
         }
 
-        _hibpLibraryObject.has_been_pwned = async function(password){
+        _hibpLibraryObject.has_been_pwned = async function (password) {
             var digest = this.sha1(password); // SHA
             var url = settings.url;
             var prefix = digest.substring(0, 5);
             var suffix = digest.substring(5).toUpperCase();
-            var is_pwned = null;
             var body = null;
             return this.httpGetAsync(url + prefix).then(result => {
                 body = result;
                 var async_is_pwned = false;
-                if (body !== null){
+                if (body !== null) {
                     var lines = body.split('\n');
-                    for(var i = 0; i < lines.length; i++){
-                        if (this.isBlank(lines[i])){
+                    for (var i = 0; i < lines.length; i++) {
+                        if (this.isBlank(lines[i])) {
                             continue;
                         } else if (lines[i].split(':')[0] == suffix) {
                             async_is_pwned = true;
@@ -198,8 +182,8 @@
         }
         return _hibpLibraryObject;
     }
-    if(typeof(window.HIBPChecker) === 'undefined'){
+    if (typeof (window.HIBPChecker) === 'undefined') {
         window.HIBPChecker = hibpLibrary();
-      }
+    }
 })(window);
 
